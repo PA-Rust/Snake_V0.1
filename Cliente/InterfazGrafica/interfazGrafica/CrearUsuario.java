@@ -76,20 +76,19 @@ public class CrearUsuario extends JFrame {
 				char[] arrayDeChars2 = claveConfirmatoria.getPassword();
 				String claveConfirmatoria = new String(arrayDeChars2);
 
-				if (nuevoJugador.getNombreDeUsuario().length() == 0 || nuevoJugador.getUsuarioId().length() == 0
-						|| clave.length() == 0 || claveConfirmatoria.length() == 0) // campos incompletos
+				if (nuevoJugador.getNombreDeUsuario().trim().length() == 0 || nuevoJugador.getUsuarioId().trim().length() == 0
+						|| clave.trim().length() == 0 || claveConfirmatoria.trim().length() == 0) // campos incompletos
 					JOptionPane.showMessageDialog(null, "Datos Incompletos", "ERROR",
 							JOptionPane.ERROR_MESSAGE);
 				else {
 
 					if (claveConfirmatoria.equals(clave)) {
-						System.out.println("SON IGUALES");
 						nuevoJugador.setClaveUsuario(clave);
 
 						/// VOLCAR A LA BASE DE DATOS
 						// yo.dispose();
 					} else {
-						JOptionPane.showMessageDialog(null, "No se ingreso correctamente la contraseÃ±a", "ERROR",
+						JOptionPane.showMessageDialog(null, "No se ingreso correctamente la contraseña", "ERROR",
 								JOptionPane.ERROR_MESSAGE);
 					}
 				}

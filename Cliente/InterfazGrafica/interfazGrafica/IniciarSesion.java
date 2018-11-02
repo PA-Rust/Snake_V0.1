@@ -77,7 +77,7 @@ public class IniciarSesion extends JFrame {
 
 		ClaveUsuario = new JPasswordField();
 
-		JLabel lblClave = new JLabel("Contraseña");
+		JLabel lblClave = new JLabel("Contrase\u00F1a");
 		lblClave.setHorizontalAlignment(SwingConstants.CENTER);
 		lblClave.setFont(new Font("Stencil", Font.PLAIN, 20));
 
