@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import Commons.Jugador;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -17,9 +19,6 @@ import java.awt.event.ActionEvent;
 
 public class CrearUsuario extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPasswordField clave;
@@ -30,12 +29,12 @@ public class CrearUsuario extends JFrame {
 
 	public CrearUsuario(JFrame padre) {
 		yo = this;
-		
+
 		setTitle("Crear nuevo usuario");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // DISPOSE_ON_CLOSE lo que hace es solo cerrar la ventana
 															// secundaria y no todas las demas
 		setLocationRelativeTo(null);
-		
+
 		setBounds(100, 100, 400, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -66,13 +65,33 @@ public class CrearUsuario extends JFrame {
 		JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (isPasswordCorrect(clave.getPassword(), claveConfirmatoria.getPassword())) {
-					System.out.println("SON IGUALES");
-					/// VOLCAR A LA BASE DE DATOS
-					// yo.dispose();
-				} else {
-					System.out.println("NO SON IGUALES");
-					/// REPETIR ENTRADA DE DATOS..O CERRAR
+
+				Jugador nuevoJugador = new Jugador();
+
+				nuevoJugador.setNombreDeUsuario(nombreNuevoReg.getText());
+				nuevoJugador.setUsuarioId(idNuevoReg.getText());
+
+				char[] arrayDeChars = clave.getPassword();
+				String clave = new String(arrayDeChars);
+				char[] arrayDeChars2 = claveConfirmatoria.getPassword();
+				String claveConfirmatoria = new String(arrayDeChars2);
+
+				if (nuevoJugador.getNombreDeUsuario().length() == 0 || nuevoJugador.getUsuarioId().length() == 0
+						|| clave.length() == 0 || claveConfirmatoria.length() == 0) // campos incompletos
+					JOptionPane.showMessageDialog(null, "Datos Incompletos", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
+				else {
+
+					if (claveConfirmatoria.equals(clave)) {
+						System.out.println("SON IGUALES");
+						nuevoJugador.setClaveUsuario(clave);
+
+						/// VOLCAR A LA BASE DE DATOS
+						// yo.dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, "No se ingreso correctamente la contraseña", "ERROR",
+								JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		});
@@ -82,7 +101,6 @@ public class CrearUsuario extends JFrame {
 
 				if (JOptionPane.showConfirmDialog(rootPane, "¿Desea realmente cancelar el registro?",
 						"Cancelar registro", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-
 					yo.dispose();
 				}
 
@@ -129,21 +147,4 @@ public class CrearUsuario extends JFrame {
 				.addContainerGap()));
 		panel.setLayout(gl_panel);
 	}
-
-	private boolean isPasswordCorrect(char[] j1, char[] j2) {
-		boolean valor = true;
-		int puntero = 0;
-		if (j1.length != j2.length) {
-			valor = false;
-		} else {
-			while ((valor) && (puntero < j1.length)) {
-				if (j1[puntero] != j2[puntero]) {
-					valor = false;
-				}
-				puntero++;
-			}
-		}
-		return valor;
-	}
-
 }

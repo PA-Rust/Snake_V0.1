@@ -9,11 +9,14 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import Commons.Jugador;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Graphics;
+import javax.swing.JOptionPane;
 
+import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -59,9 +62,6 @@ public class IniciarSesion extends JFrame {
 
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
-// Fondo de pantalla
-//		fondo = new ImageIcon(getClass().getResource("/iniciarSesion/src/logueoUsuario/fondo.jpg"));
-//		setSize(fondo.getIconWidth(),fondo.getIconHeight());
 
 		JButton btnCrearUsuario = new JButton("Crear Usuario");
 		btnCrearUsuario.addActionListener(new ActionListener() {
@@ -82,6 +82,26 @@ public class IniciarSesion extends JFrame {
 		lblClave.setFont(new Font("Stencil", Font.PLAIN, 20));
 
 		JButton btnIniciar = new JButton("Iniciar Sesion");
+		btnIniciar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				Jugador jugador = new Jugador();
+				jugador.setNombreDeUsuario(txtNombre.getText());
+				// obtengo la clave del usuario para luego consultarlo en la BD
+				char[] arrayDeChars = ClaveUsuario.getPassword();
+				String clave = new String(arrayDeChars);
+				jugador.setClaveUsuario(clave);
+				
+				if(jugador.getNombreDeUsuario().length()==0 || jugador.getClaveUsuario().length()==0) {
+					JOptionPane.showMessageDialog(null, "Datos Incompletos", "ERROR",
+							JOptionPane.ERROR_MESSAGE);	
+				}
+				else {
+				//*BUSCAR EN BASE DE DATOS Y CONSULTAR*//
+				}
+				
+			}
+		});
 
 		txtNombre = new JTextField();
 		txtNombre.setColumns(10);
@@ -112,14 +132,4 @@ public class IniciarSesion extends JFrame {
 		panel.setLayout(gl_panel);
 
 	}
-
-//para agregar la imagen... tira error
-
-//	public void paintComponent(Graphics g) {
-//		
-//		g.drawImage(fondo.getImage(), 0, 0, getWidth(), getHeight(), null);
-//		this.setOpaque(false);
-//		super.paintComponents(g);
-//	}
-
 }
